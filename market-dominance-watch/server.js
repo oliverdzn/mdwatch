@@ -22,6 +22,6 @@ const server = http.createServer((req, res) => {
   }
 });
 
-server.listen(PORT, () => {
-  console.log(`Market Dominance Watch running on http://localhost:${PORT}`);
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`Market Dominance Watch running on http://0.0.0.0:${PORT}`);
 });

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "market-dominance-watch",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "market-dominance-watch", "-l", "3000"],
+      "port": 3000
+    }
+  ]
+}

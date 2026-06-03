@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Market Dominance Watch</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0f;
+      color: #e0e0e0;
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+      border-bottom: 1px solid #21262d;
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #f7931a, #ff6b00);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      color: #fff;
+    }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      background: linear-gradient(90deg, #f7931a, #ffd700);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tf-btn {
+      padding: 6px 14px;
+      border: 1px solid #30363d;
+      background: #161b22;
+      color: #8b949e;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .tf-btn:hover {
+      border-color: #f7931a;
+      color: #f7931a;
+    }
+
+    .tf-btn.active {
+      background: #f7931a;
+      border-color: #f7931a;
+      color: #000;
+    }
+
+    .layout-controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    .layout-btn {
+      padding: 6px 12px;
+      border: 1px solid #30363d;
+      background: #161b22;
+      color: #8b949e;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+
+    .layout-btn:hover { border-color: #58a6ff; color: #58a6ff; }
+    .layout-btn.active { background: #58a6ff; border-color: #58a6ff; color: #000; }
+
+    main {
+      padding: 20px;
+    }
+
+    .chart-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .chart-grid.layout-1 { grid-template-columns: 1fr; }
+    .chart-grid.layout-3 { grid-template-columns: repeat(3, 1fr); }
+
+    .chart-card {
+      background: #161b22;
+      border: 1px solid #21262d;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+
+    .chart-card:hover {
+      border-color: #30363d;
+    }
+
+    .chart-header {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #21262d;
+    }
+
+    .chart-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chart-symbol {
+      font-size: 15px;
+      font-weight: 700;
+      color: #f0f6fc;
+    }
+
+    .chart-badge {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    .badge-dominance { background: rgba(247, 147, 26, 0.15); color: #f7931a; }
+    .badge-marketcap { background: rgba(88, 166, 255, 0.15); color: #58a6ff; }
+
+    .chart-desc {
+      font-size: 12px;
+      color: #8b949e;
+    }
+
+    .chart-container {
+      height: 400px;
+    }
+
+    .chart-grid.layout-1 .chart-container { height: 500px; }
+    .chart-grid.layout-3 .chart-container { height: 350px; }
+
+    @media (max-width: 900px) {
+      .chart-grid, .chart-grid.layout-3 {
+        grid-template-columns: 1fr;
+      }
+      header { padding: 16px; }
+      main { padding: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <div class="logo-icon">M</div>
+      <h1>Market Dominance Watch</h1>
+    </div>
+    <div style="display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
+      <div class="controls" id="timeframeControls">
+        <button class="tf-btn" data-tf="1">1H</button>
+        <button class="tf-btn" data-tf="5">5H</button>
+        <button class="tf-btn" data-tf="15">15m</button>
+        <button class="tf-btn active" data-tf="D">1D</button>
+        <button class="tf-btn" data-tf="W">1W</button>
+        <button class="tf-btn" data-tf="M">1M</button>
+      </div>
+      <div class="layout-controls" id="layoutControls">
+        <button class="layout-btn" data-cols="1" title="1 column">1</button>
+        <button class="layout-btn active" data-cols="2" title="2 columns">2</button>
+        <button class="layout-btn" data-cols="3" title="3 columns">3</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="chart-grid" id="chartGrid"></div>
+  </main>
+
+  <script>
+    const charts = [
+      { symbol: "CRYPTOCAP:BTC.D",   label: "BTC.D",   desc: "Bitcoin dominance %",                     badge: "dominance" },
+      { symbol: "CRYPTOCAP:ETH.D",   label: "ETH.D",   desc: "Ethereum dominance %",                    badge: "dominance" },
+      { symbol: "CRYPTOCAP:USDT.D",  label: "USDT.D",  desc: "USDT dominance %",                        badge: "dominance" },
+      { symbol: "CRYPTOCAP:OTHERS.D",label: "OTHERS.D", desc: "Dominance outside top 10",                badge: "dominance" },
+      { symbol: "CRYPTOCAP:TOTAL",   label: "TOTAL",   desc: "Total crypto market cap",                 badge: "marketcap" },
+      { symbol: "CRYPTOCAP:TOTAL2",  label: "TOTAL2",  desc: "Total market cap excl. BTC",              badge: "marketcap" },
+      { symbol: "CRYPTOCAP:TOTAL3",  label: "TOTAL3",  desc: "Total market cap excl. BTC + ETH",        badge: "marketcap" },
+    ];
+
+    let currentInterval = "D";
+
+    function buildCharts() {
+      const grid = document.getElementById("chartGrid");
+      grid.innerHTML = "";
+
+      charts.forEach((c, i) => {
+        const card = document.createElement("div");
+        card.className = "chart-card";
+        card.innerHTML = `
+          <div class="chart-header">
+            <div class="chart-title">
+              <span class="chart-symbol">${c.label}</span>
+              <span class="chart-badge badge-${c.badge}">${c.badge === "dominance" ? "Dominance" : "Market Cap"}</span>
+            </div>
+            <span class="chart-desc">${c.desc}</span>
+          </div>
+          <div class="chart-container" id="tv_chart_${i}"></div>
+        `;
+        grid.appendChild(card);
+
+        new TradingView.widget({
+          container_id: `tv_chart_${i}`,
+          autosize: true,
+          symbol: c.symbol,
+          interval: currentInterval,
+          timezone: "Etc/UTC",
+          theme: "dark",
+          style: "1",
+          locale: "en",
+          toolbar_bg: "#161b22",
+          enable_publishing: false,
+          hide_top_toolbar: false,
+          hide_legend: false,
+          save_image: false,
+          backgroundColor: "#0d1117",
+          gridColor: "rgba(255,255,255,0.03)",
+        });
+      });
+    }
+
+    document.getElementById("timeframeControls").addEventListener("click", (e) => {
+      const btn = e.target.closest(".tf-btn");
+      if (!btn) return;
+      document.querySelectorAll(".tf-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentInterval = btn.dataset.tf;
+      buildCharts();
+    });
+
+    document.getElementById("layoutControls").addEventListener("click", (e) => {
+      const btn = e.target.closest(".layout-btn");
+      if (!btn) return;
+      document.querySelectorAll(".layout-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const grid = document.getElementById("chartGrid");
+      grid.className = "chart-grid";
+      const cols = btn.dataset.cols;
+      if (cols !== "2") grid.classList.add(`layout-${cols}`);
+    });
+
+    const script = document.createElement("script");
+    script.src = "https://s3.tradingview.com/tv.js";
+    script.onload = buildCharts;
+    document.head.appendChild(script);
+  </script>
+</body>
+</html>

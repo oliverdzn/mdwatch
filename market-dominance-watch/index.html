@@ -185,10 +185,9 @@
     </div>
     <div style="display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
       <div class="controls" id="timeframeControls">
-        <button class="tf-btn" data-tf="1">1H</button>
-        <button class="tf-btn" data-tf="5">5H</button>
-        <button class="tf-btn" data-tf="15">15m</button>
-        <button class="tf-btn active" data-tf="D">1D</button>
+        <button class="tf-btn active" data-tf="60">1H</button>
+        <button class="tf-btn" data-tf="240">4H</button>
+        <button class="tf-btn" data-tf="D">1D</button>
         <button class="tf-btn" data-tf="W">1W</button>
         <button class="tf-btn" data-tf="M">1M</button>
       </div>
@@ -215,7 +214,7 @@
       { symbol: "CRYPTOCAP:TOTAL",   label: "TOTAL",   desc: "Total crypto market cap",                 badge: "marketcap" },
     ];
 
-    let currentInterval = "D";
+    let currentInterval = "60";
 
     function buildCharts() {
       const grid = document.getElementById("chartGrid");

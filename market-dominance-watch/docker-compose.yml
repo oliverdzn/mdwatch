@@ -1,0 +1,7 @@
+services:
+  mdwatch:
+    build: .
+    container_name: mdwatch
+    ports:
+      - "6661:6661"
+    restart: unless-stopped
